@@ -1,18 +1,23 @@
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-public class CodificaDecodifica {
-    private String codifica;
-    public CodificaDecodifica(String cf) {
-        this.codifica = cf;
-    }
-    public void codificaDecodifica() {
-        // codifica una stringa usando l'encoder `Base64`
-        Base64.Encoder encoder = Base64.getEncoder();
-        byte[] encodedBytes = encoder.encode(this.codifica.getBytes());
-        System.out.println("Encoded Data: " + new String(encodedBytes));
 
-        // decodifica i dati codificati
-        Base64.Decoder decoder = Base64.getDecoder();
-        byte[] decodedBytes = decoder.decode(encodedBytes);
-        System.out.println("Decoded Data: " + new String(decodedBytes));
+public class CodificaDecodifica {
+    public static String encrypt(String plainText, String key) throws Exception {
+        SecretKeySpec secretKey = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "AES");
+        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+        byte[] cipherText = cipher.doFinal(plainText.getBytes(StandardCharsets.UTF_8));
+        return Base64.getEncoder().encodeToString(cipherText);
+    }
+
+    public static String decrypt(String encodedText, String key) throws Exception {
+        SecretKeySpec secretKey = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "AES");
+        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        cipher.init(Cipher.DECRYPT_MODE, secretKey);
+        byte[] cipherText = Base64.getDecoder().decode(encodedText);
+        byte[] decryptedText = cipher.doFinal(cipherText);
+        return new String(decryptedText, StandardCharsets.UTF_8);
     }
 }
