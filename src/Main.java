@@ -6,8 +6,10 @@ public class Main {
         do {
             System.out.print("\n1) Codifica");
             System.out.print("\n2) Decodifica");
-            System.out.print("\n3) Seleziona file");
-            System.out.print("\n4) Exit");
+            System.out.print("\n3) Seleziona file da codificare");
+            System.out.print("\n4) Seleziona file da decodificare");
+            System.out.print("\n5) Generatore di chiavi");
+            System.out.print("\n6) Exit");
             System.out.print("\n");
             System.out.print("\nInput: ");
 
@@ -36,7 +38,27 @@ public class Main {
                         e.printStackTrace();
                     }
                 }
+                case "3" -> {
+                    try {
+                        FileReadWrite frw1 = new FileReadWrite();
+                        frw1.selectFile();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                case "4" -> {
+                    try {
+                        FileReadWrite frw2 = new FileReadWrite();
+                        frw2.decodeFile();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                case "5" -> {
+                    KeyGenerator keyGen = new KeyGenerator();
+                    keyGen.getKeyGenerator();
+                }
             }
-        } while (!input.equals("4")) ;
+        } while (!input.equals("6")) ;
     }
 }
